@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fechas</title>
+    <?php # para que se muestre el error
+          error_reporting( E_ALL );
+          ini_set( "display_errors", 1 );    
+    ?>
 </head>
 <body>
     <?php
@@ -59,8 +63,8 @@
     TEMOS CLASE LUNES, MIERCOLES Y VIERNES NO TENEMOS CLASE EL RESTO
     HACER UN SWITCH QUE DIGA SI HOY TENEMOS CLASE 
     */
-    $clase = date("l");
-    switch($clase){
+    $diaclase = date("l");
+    switch($diaclase){
         case "Monday":
         case "Wednesday": 
         case "Friday":
@@ -69,6 +73,72 @@
         default:
             echo "No hay clase";
     }
+
+    /*EJERCICIO ANTERIOR EN ESPAÑOL*/
+    $clase = date("l");
+    switch($clase){
+        case "Monday":
+            $clase="Lunes";
+            break; 
+        case "Tuesday":
+            $clase="Martes";
+            break; 
+        case "Wednesday":
+            $clase="Miercoles";
+            break;  
+        case "Thursday":
+            $clase="Jueves";
+            break; 
+        case "Friday":
+            $clase="Viernes";
+            break; 
+        case "Saturday":
+            $clase="Sabado";
+            break;  
+        case "Sunday": 
+            $clase="Domingo";
+            break; 
+    }
+    switch($clase){
+        case "Lunes":
+        case "Miercoles": 
+        case "Viernes":
+            echo "\n Hay clase";
+            break; 
+        default:
+        echo "\n No hay clase";
+
+            
+    }
+    $dia=date("l");
+    $dia_espanol=null;
+
+    $dia_espanol=match($dia){
+        "Monday" => "Lunes",
+        "Tuesday" => "Martes",
+        "Wednesday" => "Miercoles",
+        "Thursday" => "Jueves",
+        "Saturday" => "Sábado",
+        "Domingo" => "Domingo"
+    };
+
+    $n = rand(1,3);
+
+    switch($n){
+        case 1:
+            echo "El numero es 1";
+            break; 
+        case 2:
+            echo "El numero es 2";
+            break; 
+        default:
+        echo "\n No hay clase";
+    };
+
+    $resultado= match(1){
+
+    };
+
     ?>
 </body>
 </html>

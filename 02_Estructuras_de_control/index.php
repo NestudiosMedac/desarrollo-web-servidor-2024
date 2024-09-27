@@ -32,6 +32,22 @@
                         Ejercicios de fechas con la función date().
                     </td>
                 </tr>
+                <tr> <!-- columnas-->
+                    <td>
+                        <a href="ejercicios.php">ejercicios.php</a>
+                    </td>
+                    <td>
+                        Ejercicios de clase.
+                    </td>
+                </tr>
+                <tr> <!-- columnas-->
+                    <td>
+                        <a href="bucles.php">bucles.php</a>
+                    </td>
+                    <td>
+                        Ejercicios de bucles.
+                    </td>
+                </tr>
         </tbody>
     </table>
 </body>

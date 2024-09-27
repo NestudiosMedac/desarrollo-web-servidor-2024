@@ -89,7 +89,13 @@ endif;
 
     if(digito==1) $digito_texto="digito";
     echo "<p>El numero $numero_aleatorio tiene $digito $digito_texto </p>";
+// VERSION CON MATCH
 
+$digitos = match(true){
+    $numero_aleatorio>99=>3,
+    $numero_aleatorio<=99 and $numero_aleatorio>9=>2,
+    default=>1
+};
     $n = rand(1,3);
     switch($n){
         case 1:
