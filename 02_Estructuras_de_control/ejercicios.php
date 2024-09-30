@@ -48,6 +48,40 @@
         /*Ejercicio 2: Mostrar en una lista los numeros multiplos de 3 usando while e if
         Ejercicio 3: calcular los numeros pares entre 1 y 20
         Ejercicio 4: calcular el factorial de 6 con while*/
+
+
+   $contador=0;
+   while($contador<10){
+       $contador++;
+       if($contador % 3==0){
+           echo "<p>$contador es multiplo</p>";
+       }else{
+           echo "<p>$contador no es multiplo</p>";
+       }
+   }
+
+
+   $suma=0;
+   for($i=1; $i<=20; $i++){
+       if($i % 2==0){
+           echo "<p>$i es par</p>";
+           $suma=$suma+$i;
+       }else{
+           echo "<p>$i no es par</p>";
+       }
+   }
+   echo "<p>La suma de los números pares es $suma</p>";
+
+
+
+
+   $cont=0;
+   $fact=1;
+   while($cont<6){
+       $cont++;
+       $fact=$fact*$cont;
+   }
+   echo "<p>El factorial de 6 es $fact</p>";
         ?>
 </body>
 </html>
