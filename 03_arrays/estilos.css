@@ -8,3 +8,10 @@ th,td{
 caption{
     border: 2px solid purple;
 }
+.sus{
+    background-color: rgb(228, 79, 79);
+}
+.apro{
+    background-color: rgb(79, 228, 86);
+
+}

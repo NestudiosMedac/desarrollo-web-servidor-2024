@@ -8,6 +8,7 @@
           error_reporting( E_ALL );
           ini_set( "display_errors", 1 );    
     ?>
+     <link rel="stylesheet" type="text/css" href="estilos.css">
 </head>
 <body>
 
@@ -88,13 +89,13 @@
                         <tr>
                             <td><?php echo $Alumno, ":"?></td>
                             <td><?php echo$Nota?></td>
-                            <?php if($Nota<5){
-                                echo "<td>SUSPENSO</td>"; #poner class
-                                }else{
-                                    echo "<td>APROBADO</td>";
-                             }?>
+                            <?php if($Nota<5){?>
+                                 <td class="sus">SUSPENSO</td>
+                                 <?php }else{?>
+                                    <td class="apro">APROBADO</td>
+                                    <?php }?>
                          </tr>
-                        <?php } ?>
+                        <?php }?>
         <t/body>
 
 
