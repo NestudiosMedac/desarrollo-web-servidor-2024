@@ -33,20 +33,22 @@
         </thead>
         <tbody>
         <?php
-        $Asignaturas=[
+        $asignaturas=[//clave, valor
             "Desarrollo web en entorno servidor" => "Alejandra",
             "Desarrollo web en entorno cliente" => "José Miguel",
             "Diseño de interfaces web" => "José Miguel",
             "Despliegue de aplicaciones" => "Jaime",
-           " Empresa e iniciativa emprendedora" =>" Andrea",
-            "Inglés" =>" Virginia"
+           " Empresa e iniciativa emprendedora" =>"Andrea",
+            "Inglés" =>"Virginia"
 
 
         ];
-        
-                foreach($Asignaturas as $Asignatura=>$profesor) { ?>
+        //sort, rsort,asort,arsort,krsort
+        asort($asignaturas);
+        ksort($asignaturas);
+                foreach($asignaturas as $asignatura=>$profesor) { ?>
                         <tr>
-                            <td><?php echo $Asignatura, ":"?></td>
+                            <td><?php echo $asignatura, ":"?></td>
                             <td><?php echo$profesor?></td>
                          </tr>
                         <?php } ?>
@@ -81,7 +83,7 @@
             "Francisco" => 3,
             "Daniel" => 5,
             "Aurora" => 10,
-            "Luis" => 7,
+            "Luis" => 1,
             "Samuel" => 9
         ];?>
 
@@ -98,6 +100,15 @@
                         <?php }?>
         <t/body>
 
-
+        </table>
+        <?php 
+        /**
+         * Insertar dos nuevos estudiantes con notas aleatorias entre 0 y 10
+         * 
+         * Borrar un estudiante (el que peor os caiga) por la clave
+         * 
+         * Mostrar en una nueva tabla todo ordenado por los nombres en orden alfabeticamente inverso
+         * 
+         * Mostrar en una nueva tabla todo ordenado por la nota de 10 a 0 (orden inverso)*/?>
 </body>
 </html>

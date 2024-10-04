@@ -9,9 +9,11 @@ caption{
     border: 2px solid purple;
 }
 .sus{
-    background-color: rgb(228, 79, 79);
+    background-color: red;
+    color:white;
 }
 .apro{
-    background-color: rgb(79, 228, 86);
+    background-color: green;
+    color:white;
 
 }
