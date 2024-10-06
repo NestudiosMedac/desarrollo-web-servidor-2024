@@ -85,7 +85,13 @@
             "Aurora" => 10,
             "Luis" => 1,
             "Samuel" => 9
-        ];?>
+        ];
+        
+        $Alumnos["Jose"]=rand(0,10);
+        $Alumnos["Aurelio"]=rand(0,10);
+        unset($Alumnos["Samuel"]);
+
+        ?>
 
                 <?php foreach($Alumnos as $Alumno=>$Nota) { ?>
                         <tr>
@@ -110,5 +116,86 @@
          * Mostrar en una nueva tabla todo ordenado por los nombres en orden alfabeticamente inverso
          * 
          * Mostrar en una nueva tabla todo ordenado por la nota de 10 a 0 (orden inverso)*/?>
+ 
+<table>
+        <caption>Alumnos, ordenado por los nombres en orden alfabeticamente inverso</caption>
+        <thead>
+            <tr><!--columnas--->
+                <th>Alumnos</th>
+                <th>Nota</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+        $Alumnos=[
+            "Francisco" => 3,
+            "Daniel" => 5,
+            "Aurora" => 10,
+            "Luis" => 1,
+            "Samuel" => 9
+        ];
+        
+        $Alumnos["Jose"]=rand(0,10);
+        $Alumnos["Aurelio"]=rand(0,10);
+        unset($Alumnos["Samuel"]);
+        krsort($Alumnos);
+
+        ?>
+
+                <?php foreach($Alumnos as $Alumno=>$Nota) { ?>
+                        <tr>
+                            <td><?php echo $Alumno, ":"?></td>
+                            <td><?php echo$Nota?></td>
+                            <?php if($Nota<5){?>
+                                 <td class="sus">SUSPENSO</td>
+                                 <?php }else{?>
+                                    <td class="apro">APROBADO</td>
+                                    <?php }?>
+                         </tr>
+                        <?php }?>
+        <t/body>
+
+    
+<table>
+        <caption>Alumnos, ordenado por la nota de 10 a 0 (orden inverso)</caption>
+        <thead>
+            <tr><!--columnas--->
+                <th>Alumnos</th>
+                <th>Nota</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+        $Alumnos=[
+            "Francisco" => 3,
+            "Daniel" => 5,
+            "Aurora" => 10,
+            "Luis" => 1,
+            "Samuel" => 9
+        ];
+        
+        $Alumnos["Jose"]=rand(0,10);
+        $Alumnos["Aurelio"]=rand(0,10);
+        unset($Alumnos["Samuel"]);
+        arsort($Alumnos);
+
+        ?>
+
+                <?php foreach($Alumnos as $Alumno=>$Nota) { ?>
+                        <tr>
+                            <td><?php echo $Alumno, ":"?></td>
+                            <td><?php echo$Nota?></td>
+                            <?php if($Nota<5){?>
+                                 <td class="sus">SUSPENSO</td>
+                                 <?php }else{?>
+                                    <td class="apro">APROBADO</td>
+                                    <?php }?>
+                         </tr>
+                        <?php }?>
+        <t/body>
+
+        </table>
 </body>
 </html>
