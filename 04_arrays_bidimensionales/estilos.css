@@ -1,0 +1,19 @@
+table{
+    border: 2px solid purple;
+}
+th,td{
+    border: 2px solid palevioletred;
+
+}
+caption{
+    border: 2px solid purple;
+}
+.sus{
+    background-color: red;
+    color:white;
+}
+.apro{
+    background-color: green;
+    color:white;
+
+}
