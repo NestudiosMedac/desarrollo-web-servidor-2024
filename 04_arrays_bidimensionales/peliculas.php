@@ -28,12 +28,32 @@
            /**1.AÑADIR CON UN RAND, LA DURACION DE CADA PELICULA.COMO UNA NUEVA COLUMNA LA DURACION SERA DE UN NUMERO ALEATORIO ENTRE 30 Y 240
             * 2. AÑADIR COMO NUEVA COLUMNA EL TIPO DE PELICULA. EL TIPO SERA: 
             *   -CORTOMETRAJE SI DURA MENOS DE 60 
-            *   -LARGO METRAJE SI LA DURACION ES MAYOR O IGUAL QUE 6
+            *   -LARGO METRAJE SI LA DURACION ES MAYOR O IGUAL QUE 60
             *3. MOSTRAR EN OTRA TABLA, TODAS LAS COLUMAS, Y ORDENAR ADEMAS EN ESTE ORDEN:
             *    1. GENERO
             *    2. AÑO
             *    3. TITULO(TODO ALFABETICAMENTE, EL AÑO DE MAS RECIENTE A MAS ANTIGUO)
             */
+            for($i=0; $i<count($peliculas); $i++){
+                $peliculas[$i][3]=rand(30,240);
+            }
+            for($i=0; $i<count($peliculas); $i++){
+                if($peliculas[$i][3]<60){
+                    $peliculas[$i][4]="CORTOMETRAJE";
+               
+            }elseif ($peliculas[$i][3]>=60) {
+                $peliculas[$i][4]="LARGOMETRAJE";
+            }
+            
+            }
+            $_titulo=array_column($peliculas, 0);
+            $_categoria=array_column($peliculas, 1);
+            $_anio = array_column($peliculas, 2);
+
+            array_multisort($_categoria, SORT_ASC,
+                            $_anio, SORT_DESC, 
+                            $_titulo, SORT_ASC, 
+                            $peliculas);
 
  ?>
  <table>
@@ -42,16 +62,20 @@
             <th>Pelicula</th>
             <th>Categoría</th>
             <th>Año</th>
+            <th>Duración</th>
+            <th>Tipo</th>
         </tr>
     </thead>
     <tbody>
         <?php
         foreach($peliculas as $pelicula){
-            list($titulo,$categoria,$anio)=$pelicula;
+            list($titulo,$categoria,$anio,$duracion,$tipo)=$pelicula;
             echo "<tr>";
             echo "<td>$titulo</td>";
             echo "<td>$categoria</td>";
             echo "<td>$anio</td>";
+            echo "<td>$duracion</td>";
+            echo "<td>$tipo</td>";
             echo "</tr>";
         }
         ?>
