@@ -33,19 +33,17 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
     $b=(int)$_POST["b"];
     $n=2;
     echo"<ol>";
-   while($a<=$b){
+   for($j= $a; $j<=$b; $j++){
        $boolean=true;
-       for($z=2; $z<$n; $z++){
-           if($n%$z==0){
+       for($z=2; $z<$j/2; $z++){
+           if($j%$z==0){
                $boolean=false;
                break;
            }
        }
        if($boolean){
-           $a++;
-           echo "<li>$n</li>";
+           echo "<li>$j</li>";
        }
-       $n++;
     }
     echo"</ol>";    
 }

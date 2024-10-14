@@ -36,9 +36,9 @@ Los múltiplos de 2 entre 3 y 10 son: 4, 6, 8 y 10</p>
 *Los múltiplos de 2 entre 3 y 10 son: 4, 6, 8 y 10
 */
 if($_SERVER["REQUEST_METHOD"]=="POST"){
-    $a=(int)$_POST["a"];
-    $b=(int)$_POST["b"];
-    $c=(int)$_POST["c"];
+    $a=(int)$_POST["a"];//desde
+    $b=(int)$_POST["b"];//hasta
+    $c=(int)$_POST["c"];//multiplo
     $multi="";
         for($i=$a;$i<=$b;$i++){
             if($i % $c == 0){

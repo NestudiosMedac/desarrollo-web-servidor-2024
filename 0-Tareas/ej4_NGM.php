@@ -30,7 +30,7 @@ En los select se podrá elegir entre: CELSIUS, KELVIN y FAHRENHEIT.</p>
          <option value="pf">FAHRENHEIT</option>
        </select>
         <br><br>
-         <input type="submit" value="Cambiar">
+         <input type="submit" value="Convertir">
     </form>
     
 </body> 
@@ -38,7 +38,6 @@ En los select se podrá elegir entre: CELSIUS, KELVIN y FAHRENHEIT.</p>
 /**
 * EJERCICIO 3:Realiza un formulario que reciba dos números y devuelva todos los números primos dentro de ese rango (incluidos los extremos).
 */
-
   if ($_REQUEST['unidad'] == "c") {
     $temp=$_REQUEST['temp'];
         if($_REQUEST['pasar'] == "pf"){
