@@ -25,7 +25,7 @@
         <input type="submit" value="Enviar">
     </form>
 <?php
-if($_SERVER["REQUEST_METHOD"]=="POST"){//cuidado con el == hay que ponerlo, si usas = siempre se ejecuta
+if($_SERVER["REQUEST_METHOD"]=="POST"){
     /**
      * EJERCICIO 1: Realiza un formulario que reciba 3 números y devuelva el mayor de ellos.
     */
@@ -36,13 +36,16 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){//cuidado con el == hay que ponerlo, si u
     
         if($num2>$mayor){
             $mayor=$num2;
-        }
-        if($num3>$mayor){
+        }elseif($num3>$mayor){
             $mayor=$num3;
+        }else{
+        // por lógica si la variable es el num1 en principio y si llega hasta el else la variable de apoyo sigue mayor sigue siendo num1
         }
-        
         echo "<h1>El $mayor es el mayor</h1>";
     }    
     ?>
 </body>
 </html>
+
+
+
