@@ -4,42 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <?php # para que se muestre el error
+          error_reporting( E_ALL );
+          ini_set( "display_errors", 1 );
+          
+          require('../06-funciones/irpf.php');
+    ?>
 </head>
 <body>
-<form action="" method="post"><!--Sin nada es singlepage, con el fichero php es multipage-->
-    
-    <input type="text" name="salario">
-    <input type="submit" value="Enviar">
+<form action="" method="post">
+        <input type="text" name="salario" placeholder="Salario">
+        <input type="submit" value="Calcular salario bruto">
+    </form>
+    <?php
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+        $tmp_salario = $_POST["salario"];
+        
+        if($tmp_salario==''){
+            echo "<p>El salario es obligatorio</p>";
+        }else{
+            if(filter_var($tmp_salario, FILTER_VALIDATE_FLOAT) === FALSE ){
+                echo "<p>La base debe ser un número</p>"; 
+            }else{
+                if($tmp_salario<=0 ){
+                    echo "<p>El salario debe ser mayor a cero</p>";
+                }else{
+                    $salario=$tmp_salario;
+                }
+            }
+        }
+        
 
-</form>
-<?php
-if($_SERVER["REQUEST_METHOD"]=="POST"){
-    $bolsa=0;
-    $salario=$_POST["salario"];
-
-    $tramo1=12450-(12450*0.19);
-    $tramo2=20199-(20199*0.24);
-    $tramo3=35199-(35199*0.30);
-    $tramo4=59999-(59999*0.37);
-    $tramo5=299999-(299999*0.45);
-    $tramo6=300000-(300000*0.47);
-
-
-
-    $irpf=match($salario){
-        $salario<=12450 =>  $salario-$tramo1,
-        $salario>12450 && $salario<=20199  => $salario-$tramo1+$tramo2 ,
-        $salario>20200 && $salario<=35199  => $salario- $tramo1+$tramo2+$tramo3 ,
-        $salario>35199 && $salario<=59999 => $salario-$tramo1+$tramo2+$tramo3-$tramo4 ,
-        $salario>60000 && $salario<=299999 => $salario-$tramo1+$tramo2+$tramo3-$tramo4+$tramo5,
-        $salario>300000 => $salario-$tramo1+$tramo2+$tramo3-$tramo4+$tramo5+$tramo6 ,
-         };
-    echo "<p>El sueldo bruto es: $irpf</p>";
-}
-
-
-
-?>
+        if(isset($salario)){// isset, si la variable esta definida
+            $res=calcularIRPF($salario);
+            echo "<h1>El salario neto de $salario es $res</h1>";
+        }
+    }
+    ?>
 
 </body>
 </html>

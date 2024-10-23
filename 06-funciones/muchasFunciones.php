@@ -1,6 +1,6 @@
 <?php
 function hacerEjemplo($mensaje,$veces){
-    if($mensaje!='' and $veces != '' ){
+    if($mensaje!='' and $veces != '' ){ /*NO HACER AQUI LA COMPROBACION, HACERLA DONDE SE LLAMA LA FUNCION  */
     for($i=0;$i<$veces;$i++){
             
         echo "<h1>$mensaje</h1>";

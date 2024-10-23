@@ -40,8 +40,38 @@ if ($_POST["accion"] == "formulario_temperaturas"){
     $inicial = $_POST["unidad_inicial"];
     $final = $_POST["unidad_final"];
 
-    convertirTemperatura($temperatura,$inicial,$final); /* aqui es donde se llama la funcion */
-}
+
+    if($temperatura !='' ){
+        if(is_numeric($temperatura)){
+            if($inicial=="C" and $temperatura>= -273.15){
+               echo convertirTemperatura($temperatura,$inicial,$final); 
+            }elseif($inicial=="C" and $temperatura< -273.15){
+                echo "<p> La temperatura no puede ser inferior a -273.15 C</p>";
+            }
+            if($inicial=="K" and $temperatura>= 0){
+                echo convertirTemperatura($temperatura,$inicial,$final); 
+            }elseif($inicial=="K" and $temperatura<  0){
+                echo "<p> La temperatura no puede ser inferior a 0 K</p>";
+            }
+            if($inicial=="F" and $temperatura>= -459.67){
+                echo convertirTemperatura($temperatura,$inicial,$final); 
+            }elseif($inicial=="F" and $temperatura< -459.67){
+                echo "<p> La temperatura no puede ser inferior a -459.67 F</p>";
+            }
+        }else{
+            echo "<p>La temperatura debe ser un número </p>";
+        }
+
+    }else{
+        echo "<p>Falta la temperatura </p>";
+    }
+   /*  if($temperatura !=''  && $inicial !=''  && $final !=''){
+            $temperatura_final= convertirTemperatura($temperatura,$inicial,$final); /* aqui es donde se llama la funcion 
+            echo "<p>$temperatura_final</p>";
+        }else{
+            echo "<p>Te faltan datos </p>";
+        } */
+    }
 }
 
     ?>
@@ -62,6 +92,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $edad = $_POST["edad"];
         comprobarEdad($nombre, $edad);
     }
+
+
+
+
+
+    
 /* 
     if ($_POST["accion"] == "formulario_temperaturas"){
         $temperatura = $_POST["temperatura"];

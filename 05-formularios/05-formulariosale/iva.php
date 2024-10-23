@@ -7,10 +7,7 @@
     <?php
         error_reporting( E_ALL );
         ini_set("display_errors", 1 );    
-
-        define("GENERAL", 1.21);
-        define("REDUCIDO", 1.1);
-        define("SUPERREDUCIDO", 1.04);
+        require("../../06-funciones/irpf.php")
     ?>
 </head>
 <body>
@@ -27,9 +24,9 @@
         <input type="text" name="precio" id="precio">
         <br><br>
         <select name="iva">
-            <option value="general">General</option>
-            <option value="reducido">Reducido</option>
-            <option value="superreducido">Superreducido</option>
+            <option value="GENERAL">General</option>
+            <option value="REDUCIDO">Reducido</option>
+            <option value="SUPERREDUCIDO">Superreducido</option>
         </select>
         <br><br>
         <input type="submit" value="Calcular">
@@ -37,20 +34,41 @@
 
     <?php
     if($_SERVER["REQUEST_METHOD"] == "POST") {
-        $precio = $_POST["precio"];
-        $iva = $_POST["iva"];
+        $tmp_precio = $_POST["precio"];
+        $tmp_iva = $_POST["iva"];
 
-        if($precio='' and $iva != ''){
-            $pvp = match($iva) {
-            "general" => $precio * GENERAL,
-            "reducido" => $precio * REDUCIDO,
-            "superreducido" => $precio * SUPERREDUCIDO
-        };
 
-            echo "<p>El PVP ES $pvp</p>";
+        if($tmp_precio=='' ){
+            echo "<p>El precio es obligatorio</p>";
         }else{
-            echo "<p>Te faltan datos </p>";
+            if(filter_var($tmp_precio, FILTER_VALIDATE_FLOAT) === FALSE ){
+                echo "<p>El precio debe ser un número</p>"; 
+            }else{
+                if($tmp_precio<0 ){
+                    echo "<p>El precio debe ser mayor a cero</p>";
+                }else{
+                    $precio=$tmp_precio;
+                }
+            }
+        }
+        
 
+        if($tmp_iva == ''){
+            echo "<p>El iva es obligatorio</p>";
+        }else{
+            $valores_validos_iva =["GENERAL", "REDUCIDO","SUPERREDUCIDO"];
+            if( !in_array($tmp_iva, $valores_validos_iva) ){
+                echo "<p>El iva debe ser: GENERAL, REDUCIDO, SUPERREDUCIDO</p>"; 
+                }else{
+                    $iva=$tmp_iva;
+                }
+            }
+        
+        
+
+        if(isset($precio) && isset($iva)){// isset, si la variable esta definida
+            $res=calcularPVP($precio, $iva);
+            echo "<h1>El precio $precio con el IVA $iva es $res</h1>";
         }
     }
     ?>

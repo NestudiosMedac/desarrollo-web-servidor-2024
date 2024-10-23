@@ -17,7 +17,7 @@
             $temperaturaFinal = ($temperaturaInicial - 32) * (5/9) + 273.15;
         }
     } 
-echo "<p>$temperaturaFinal</p>";
+    return $temperaturaFinal;
 
 }
 ?>

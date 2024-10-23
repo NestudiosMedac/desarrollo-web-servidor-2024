@@ -6,7 +6,9 @@
     <title>Ejemplo</title>
     <?php # para que se muestre el error
           error_reporting( E_ALL );
-          ini_set( "display_errors", 1 );    
+          ini_set( "display_errors", 1 );
+          
+          require('../06-funciones/potencias.php');
     ?>
 </head>
 <body>
@@ -32,15 +34,66 @@
          */
         if($_SERVER["REQUEST_METHOD"]=="POST"){
 
-        $base = $_POST["base"];
-        $exponente = $_POST["exponente"];
-        $res = 1;
+        $tmp_base = $_POST["base"];
+        $tmp_exponente = $_POST["exponente"];
 
+            //version mejor de base
+            if($tmp_base == ''){
+                echo "<p>La base es obligatoria</p>";
+            }else{
+                if(filter_var($tmp_base, FILTER_VALIDATE_INT)=== FALSE ){//si pasa el filtro devuelve la variable si no lo pasa devuelve falso, si algo es cero y tiene != da falso automaticamente por eso tiene !==
+                    echo "<p>La base debe ser un número</p>"; 
+                }else{
+                $base=$tmp_base;  
+                }
+            }
 
-        for($i=0;$i<$exponente ;$i++){
-            $res*=$base;
+            //version mejor de exponente
+            if($tmp_exponente == ''){
+                echo "<p>El exponente es obligatoria</p>";
+            }else{
+                if(filter_var($tmp_exponente, FILTER_VALIDATE_INT)=== FALSE ){//si pasa el filtro devuelve la variable si no lo pasa devuelve falso, si algo es cero y tiene != da falso automaticamente por eso tiene !==
+                    echo "<p>El exponente debe ser un número</p>"; 
+                }else{
+                    if($tmp_exponente <0){
+                        echo "<p>El exponente debe ser un número positivo</p>";
+                    }else{
+                        $exponente=$tmp_exponente; 
+                    } 
+                }
+            }
+       /*  //base
+        if($tmp_base!= ''){
+            if(filter_var($tmp_base, FILTER_VALIDATE_INT)!== FALSE ){//si pasa el filtro devuelve la variable si no lo pasa devuelve falso, si algo es cero y tiene != da falso automaticamente por eso tiene !==
+                $base=$tmp_base;
+            }else{
+                echo "<p>La base debe ser un número</p>";
+            }
+
+        }else{
+            echo "<p>La base es obligatoria</p>";
         }
-        echo "<h2>$res</h2>";
+        //exponente
+        if($tmp_exponente!= ''){
+            if(filter_var($tmp_exponente, FILTER_VALIDATE_INT)!== FALSE){//is_numeric sirve para comprobar si es un numero aunque este en string, no se usa aqui porque te pueden colar decimales
+                if($tmp_exponente>=0){
+                    $exponente=$tmp_exponente;
+                }else{
+                    echo "<p>El exponente debe ser un número positivo</p>";
+                }
+            }else{
+                echo "<p>El exponente debe ser un número</p>";
+            }
+
+        }else{
+            echo "<p>El exponente es obligatorio</p>";
+        } */
+        if(isset($base) && isset($exponente)){// isset, si la variable esta definida
+            $res=potencia($base, $exponente);
+            echo "<h2>El resultado es $res</h2>";
+
+        }
+        
         }
     ?>
 </body>
