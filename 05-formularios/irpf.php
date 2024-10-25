@@ -10,37 +10,46 @@
           
           require('../06-funciones/irpf.php');
     ?>
+    <style>
+        .error{
+            color: red;
+            font-style: italic;
+        }
+    </style>
 </head>
 <body>
-<form action="" method="post">
-        <input type="text" name="salario" placeholder="Salario">
-        <input type="submit" value="Calcular salario bruto">
-    </form>
-    <?php
+<?php
     if($_SERVER["REQUEST_METHOD"] == "POST") {
-        $tmp_salario = $_POST["salario"];
+        if(isset($_POST["salario"]))$tmp_salario = $_POST["salario"];
+        else $tmp_salario = '';
         
         if($tmp_salario==''){
-            echo "<p>El salario es obligatorio</p>";
+            $err_salario = "El salario es obligatorio";
         }else{
             if(filter_var($tmp_salario, FILTER_VALIDATE_FLOAT) === FALSE ){
-                echo "<p>La base debe ser un número</p>"; 
+            $err_salario = "La base debe ser un número"; 
             }else{
                 if($tmp_salario<=0 ){
-                    echo "<p>El salario debe ser mayor a cero</p>";
+                    $err_salario = "El salario debe ser mayor a cero";
                 }else{
                     $salario=$tmp_salario;
                 }
             }
         }
-        
-
-        if(isset($salario)){// isset, si la variable esta definida
-            $res=calcularIRPF($salario);
-            echo "<h1>El salario neto de $salario es $res</h1>";
-        }
     }
     ?>
+<form action="" method="post">
+        <input type="text" name="salario" placeholder="Salario">
+        <input type="submit" value="Calcular salario bruto">
+        <?php if(isset($err_salario)) echo"<span class='error'>$err_salario </span>";?>
+    </form>
 
+   <?php
+   if(isset($salario)){// isset, si la variable esta definida // no hace falata que este dentro del $_server
+    $res=calcularIRPF($salario);
+    echo "<h1>El salario neto de $salario es $res</h1>";
+    }
+
+   ?>
 </body>
 </html>
