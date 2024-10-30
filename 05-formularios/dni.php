@@ -32,8 +32,9 @@
         $patron = "/^[0-9]{8}[A-Z]{1}$/";
         if(!preg_match($patron, $tmp_dni)){
         $err_dni= "El DNI debe tener un largo de 9 digitos, 8 numeros(0,9) y una letra";
-        }else{
+        }else{//hacer con array para practicar
             $letraDNI= $tmp_dni[8];
+            $arrayLetras=["T","R"];
                 switch((int)$tmp_dni%23){
                     case 0: 
                         if($letraDNI == "T"){
@@ -136,18 +137,23 @@
         <label>DNI:</label>
         <input type="text" name="dni">
         <?php if(isset($err_dni)) echo "<span class='error'>$err_dni</span>";?>
+        <br>
         <label>Nombre:</label>
         <input type="text" name="nombre">
         <?php if(isset($err_nombre)) echo "<span class='error'>$err_nombre</span>";?>
+        <br>
         <label>Primer apellido:</label>
         <input type="text" name="primerApellido">
         <?php if(isset($err_apellidos)) echo "<span class='error'>$err_apellidos</span>";?>
+        <br>
         <label>Segundo apellido:</label>
         <input type="text" name="segundoApellido">
         <?php if(isset($err_apellidos)) echo "<span class='error'>$err_apellidos</span>";?>
+        <br>
         <label>Fecha de Nacimiento:</label>
         <input type="text" name="fechaNacimiento">
         <?php if(isset($err_fechaNacimiento)) echo "<span class='error'>$err_fechaNacimiento</span>";?>
+        <br>
         <label>Correo electrónico:</label>
         <input type="text" name="correo">
         <?php if(isset($err_correo)) echo "<span class='error'>$err_correo</span>";?>
