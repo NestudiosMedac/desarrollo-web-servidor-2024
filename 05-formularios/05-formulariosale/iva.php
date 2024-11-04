@@ -7,7 +7,7 @@
     <?php
         error_reporting( E_ALL );
         ini_set("display_errors", 1 );    
-        require("../../06-funciones/irpf.php")
+        require("../../06-funciones/economia.php")
     ?>
     <style>
         .error{
@@ -35,15 +35,15 @@
         if($tmp_precio == '' ){
             $err_precio =  "El precio es obligatorio";
         }else{
-            if(filter_var($tmp_precio, FILTER_VALIDATE_FLOAT) === FALSE ){
+      /*       if(filter_var($tmp_precio, FILTER_VALIDATE_FLOAT) === FALSE ){
                 $err_precio = "El precio debe ser un número"; 
             }else{
                 if($tmp_precio<0 ){
                     $err_precio = "El precio debe ser mayor a cero";
-                }else{
+                }else{*/
                     $precio=$tmp_precio;
-                }
-            }
+                //}
+          //  } 
         }
 
         if($tmp_iva == ''){

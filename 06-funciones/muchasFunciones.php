@@ -1,5 +1,5 @@
 <?php
-function hacerEjemplo($mensaje,$veces){
+function hacerEjemplo( string $mensaje,int $veces){
     if($mensaje!='' and $veces != '' ){ /*NO HACER AQUI LA COMPROBACION, HACERLA DONDE SE LLAMA LA FUNCION  */
     for($i=0;$i<$veces;$i++){
             
@@ -9,35 +9,31 @@ function hacerEjemplo($mensaje,$veces){
     echo "<p>Te faltan datos </p>";
 }
 }
-function hacerPotencias($base,$exponente, $res){
-    if($base!='' and $exponente != '' and $res != ''){
+function hacerPotencias(int $base,int $exponente): int{
+    $res = 1 ;
+    if($base!='' and $exponente != ''){
     for($i=0;$i<$exponente ;$i++){
         $res*=$base;
     }
-    echo "<h2>$res</h2>";
+   return $res ;
 }else{
     echo "<p>Te faltan datos </p>";
 }
 }
-function hacerIva($precio,$iva){
-    if($precio!='' and $iva != ''){
-        $general=1.21;
-        $reducido=1.10;
-        $superreducido=1.04;
-        
-        $pvp = match($iva) {
-        "general" => $precio * $general,
-        "reducido" => $precio * $reducido,
-        "superreducido" => $precio * $superreducido,
+define("GENERAL", 1.21);
+define("REDUCIDO", 1.1);
+define("SUPERREDUCIDO", 1.04);
+
+function hacerIva(int | float $precio, string $iva) : float{// puede entrar int o float, un string en iva y debe devolver un float
+    $pvp = match($iva) {
+        "GENERAL" => $precio * GENERAL,
+        "REDUCIDO" => $precio * REDUCIDO,
+        "SUPERREDUCIDO" => $precio * SUPERREDUCIDO
     };
-
-        echo "<p>El PVP ES $pvp</p>";
-    }else{
-        echo "<p>Te faltan datos </p>";
-
+    return $pvp;
 }
-}
-function hacerMulti($num,$res){
+
+function hacerMulti(int | float $num, $res){
     if($num!=''){
     for($i=0;$i<=10 ;$i++){
         $res=$num*$i;
