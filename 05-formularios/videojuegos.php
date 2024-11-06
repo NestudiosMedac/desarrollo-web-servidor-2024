@@ -28,65 +28,98 @@
 <?php 
     if($_SERVER["REQUEST_METHOD"]=="POST"){
         $tmp_titulo = depurar($_POST["titulo"]);
-        $tmp_consola = depurar($_POST["consola"]);
-        $tmp_fecha = depurar($_POST["fecha"]);
-        $tmp_pegi = depurar($_POST["pegi"]);
+        if(isset($_POST["consola"])) $tmp_consola = $_POST["consola"];
+        else $tmp_consola ="";
+        $tmp_fecha_lanzamiento= depurar($_POST["fecha"]);
+        if(isset($_POST["pegi"])) $tmp_pegi = $_POST["pegi"];
+        else $tmp_pegi ="";
         $tmp_descripcion = depurar($_POST["descripcion"]);
 
-
-
-
-    if($tmp_titulo == ""){
-        $err_titulo="El titulo es obligatorio";
-    }else{
-        if(strlen($tmp_titulo)> 1 && strlen($tmp_titulo) < 80){
-        $err_titulo= "El titulo debe tener un largo de 1 a 80 carácteres";
-        }else{//hacer con array para practicar
-           $titulo = $tmp_titulo;
-                    
-        }
-    }
-    if($tmp_pegi == ""){
-        $err_pegi="Debes selecionar un pegi";
-
-    }else{
-        switch($tmp_pegi){
-            case "3":
-            case "7":
-            case "12":
-            case "16":
-            case "18":
-                $tmp_pegi=$pegi;
-                break;
-            default:
-                $err_pegi="Pegi no valido";
-        }
-    }
-    if($tmp_fecha == '') {
-        $err_fecha = "La fecha es obligatoria";
-    } else {
-        $patron = "/^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/";
-        if(!preg_match($patron,$tmp_fecha)) {
-            $err_fecha= "El formato de la fecha es incorrecto";
-        } else {
-            $fecha_actual = date("Y-m-d"); 
-            list($anno_actual,$mes_actual,$dia_actual) = 
-                explode('-',$fecha_actual);
-            list($anno,$mes,$dia) = 
-                explode('-',$tmp_fecha);
-
-            if ($anno<1947){
-                $err_fecha= "La fecha es muy antigua";
+        if($tmp_titulo == ""){
+            $err_titulo="El titulo es obligatorio";
+        }else{
+            if(strlen($tmp_titulo)< 1 && strlen($tmp_titulo) > 80){
+            $err_titulo= "El titulo debe tener un largo de 1 a 80 carácteres";
             }else{
-            if (($anno_actual+5)>$anno){
-                $err_fecha= "La fecha tiene como limite 5 años mas de la fecha actual";
-            }else{
-                $tmp_fecha=$fecha;
+               $titulo = $tmp_titulo;
+                        
             }
+        }
 
-        }    
-    }
-}
+        if($tmp_consola == '') {
+            $err_consola = "La consola es obligatoria";
+        } else {
+            $consolas_validas = ["ps4","ps5","switch","xbox"];
+            if(!in_array($tmp_consola, $consolas_validas)) {
+                $err_consola = "Elige una consola válida";
+            } else {
+
+            }
+        }
+        
+
+
+        if($tmp_fecha_lanzamiento == '') {
+            $err_fecha_lanzamiento = "La fecha de lanzamiento es obligatoria";
+        } else {
+            $patron = "/^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/";
+            if(!preg_match($patron, $tmp_fecha_lanzamiento)) {
+                $err_fecha_lanzamiento = "Formato de fecha incorrecto";
+            } else {
+                list($anno_lanzamiento,$mes_lanzamiento,$dia_lanzamiento) =
+                    explode('-',$tmp_fecha_lanzamiento);
+                if($anno_lanzamiento < 1947) {
+                    $err_fecha_lanzamiento = "El año no puede ser anterior a 1947";
+                } else {
+                    $anno_actual = date("Y");
+                    $mes_actual = date("m");
+                    $dia_actual = date("d");
+
+                    if($anno_lanzamiento - $anno_actual < 5) {
+                        $fecha_lanzamiento = $tmp_fecha_lanzamiento;
+                    } elseif($anno_lanzamiento - $anno_actual > 5) {
+                        $err_fecha_lanzamiento = "La fecha debe ser anterior a dentro de 5 años";
+                    } elseif($anno_lanzamiento - $anno_actual == 5) {
+                        if($mes_lanzamiento - $mes_actual < 0) {
+                            $fecha_lanzamiento = $tmp_fecha_lanzamiento;
+                        } elseif($mes_lanzamiento - $mes_actual > 0) {
+                            $err_fecha_lanzamiento = "La fecha debe ser anterior a dentro de 5 años";
+                        } elseif($mes_lanzamiento - $mes_actual == 0) {
+                            if($dia_lanzamiento - $dia_actual <= 0) {
+                                $fecha_lanzamiento = $tmp_fecha_lanzamiento;
+                            } elseif($dia_lanzamiento - $dia_actual > 0) {
+                                $err_fecha_lanzamiento = "La fecha debe ser anterior a dentro de 5 años";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    
+    /**
+     * 1900-10-10 NO
+     * 1946-12-31 NO
+     * 1947-01-01 SI
+     * 1933-12-02 SI
+     * 2034-11-01 NO
+     * 1947-01-01 NO
+     * no es seguro
+     *           
+     */
+
+        if($tmp_pegi == '') {
+            $err_pegi = "El pegi es obligatorio";
+        } else {
+            $pegi_validos = ["3","7","12","16","18"];
+            if(!in_array($tmp_pegi, $pegi_validos)) {
+                $err_pegi = "Elige una pegi valido";
+            } else {
+
+            }
+        }
+
+    
+ 
     if($tmp_descripcion == ""){
                $descripcion = $tmp_descripcion;        
     }else{
@@ -96,26 +129,6 @@
            $descripcion = $tmp_descripcion;        
         }
     }
-
-
-    if($tmp_nombre == ''){
-        $err_nombre="El nombre es obligatorio";
-    }else {
-        if (strlen($tmp_nombre)<2 || strlen($tmp_nombre)> 40){
-            $err_nombre="El nombre debe contener de 2 y 40 caracteres";
-        }else{
-            $patron = "/^[a-zA-Z áéíóúÁÉÍÓÚñÑ]+$/";
-            if (!preg_match($patron, $tmp_nombre)){
-                $err_nombre="El nombre solo debe contener letras y espacios en blanco";
-            }else{
-                $nombre = $tmp_nombre; 
-            }
-        
-        }
-    }
-
-
-
 }
     ?>
 
@@ -123,16 +136,34 @@
 
 
 <form action="" method="post">
-        <label>Titulo:</label>
+        <label class="form-label">Titulo:</label>
         <input type="text" name="titulo">
         <?php if(isset($err_titulo)) echo "<span class='error'>$err_titulo</span>";?>
-        <label>Consola:</label>
-        <input type="radio" name="consola">
+        <br>
+        <label class="form-label">Consola:</label>
+        <div class= "form-check">
+            <input class="form-check-input" type="radio" name="consola" value="ps4">
+            <label class="form-check-label" >Playstation 4</label>
+        </div>
+        <div class= "form-check">
+            <input class="form-check-input" type="radio" name="consola" value="ps5">
+            <label class="form-check-label" >Playstation 5</label>
+        </div>
+        <div class= "form-check">
+            <input class="form-check-input" type="radio" name="consola" value="switch">
+            <label class="form-check-label" >Nintendo Switch</label>
+        </div>
+        <div class= "form-check">
+            <input class="form-check-input" type="radio" name="consola" value="xbox">
+            <label class="form-check-label" >Xbox Series X/S</label>
+        </div>
         <?php if(isset($err_consola)) echo "<span class='error'>$err_consola</span>";?>
-        <label>Fecha:</label>
+        <br>
+        <label class="form-label">Fecha:</label>
         <input type="date" name="fecha">
-        <?php if(isset($err_fecha)) echo "<span class='error'>$err_fecha</span>";?>
-        <label>Pegi:</label>
+        <?php if(isset($err_fecha_lanzamiento)) echo "<span class='error'>$err_fecha_lanzamiento</span>";?>
+        <br>
+        <label class="form-label">Pegi:</label>
         <select name="Pegi">
             <option value="3">3</option>
             <option value="7">7</option>
@@ -141,8 +172,9 @@
             <option value="18">18</option>
          </select>
         <?php if(isset($err_pegi)) echo "<span class='error'>$err_pegi</span>";?>
-        <label>Descripcion:</label>
-        <input type="text" name="descripcion">
+        <br>
+        <label class="form-label">Descripcion:</label>
+        <textarea class="form-control" name="descripcion"></textarea>
         <?php if(isset($err_descripcion)) echo "<span class='error'>$err_descripcion</span>";?>
         <br>
         <input type="submit" name="Enviar">
