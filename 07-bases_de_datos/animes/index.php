@@ -19,6 +19,9 @@
     $sql = "SELECT* FROM animes";
     $resultado = $_conexion -> query($sql);
     /**
+     * 
+     * SI SIEMPRE ENTRAMOS AL INDEX CAMBIA LA URL
+     * 
      * Aplicamos la funcion query a la conexion, donde se ejecura la sentencia SQL hecha
      * 
      * El resultado se almacena $resultado, que es un objeto con una estructura parecida
