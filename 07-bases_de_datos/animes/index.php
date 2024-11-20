@@ -28,6 +28,7 @@
      * a los arrays
      */
     ?>
+    <a href="nuevo_anime.php" class="btn btn-secondary">Crear nuevo anime</a> <br><br>
     <table class='table table-striped table-hover table-sm' >
         <thead class='table-dark'>
             <tr >
@@ -35,6 +36,7 @@
                 <th>Estudio</th>
                 <th>Año</th>
                 <th>Número de temporadas</th>
+                <th></th><!-- imagen -->
             </tr>
         </thead>
         <tbody>
@@ -45,6 +47,11 @@
                 echo "<td>".$fila["nombre_estudio"]."</td>";
                 echo "<td>".$fila["anno_estreno"]."</td>";
                 echo "<td>".$fila["num_temporadas"]."</td>";
+                ?>
+                <td>
+                    <img width="100" height="200" src="<?php echo $fila["imagen"]?>">
+                </td>
+                <?php
                 echo"</tr>";
             }
             ?>
