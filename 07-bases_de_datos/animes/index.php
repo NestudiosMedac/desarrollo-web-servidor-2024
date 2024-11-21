@@ -6,7 +6,7 @@
     <title>Index de Animes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <?php
-        error_reporting(E_ALL );
+        error_reporting(E_ALL);
         ini_set("display_errors", 1 );    
 
         require('conexion.php');
@@ -16,6 +16,14 @@
     <div class="container">
     <h1>Tabla de animes</h1>
     <?php
+     if($_SERVER["REQUEST_METHOD"]== "POST"){
+        $id_anime = $_POST["id_anime"];
+        echo "<h1>$id_anime</h1>";
+        //BORRAR ANIME
+        $sql = "DELETE FROM animes WHERE id_anime = $id_anime";
+        $_conexion -> query($sql);
+     }
+
     $sql = "SELECT* FROM animes";
     $resultado = $_conexion -> query($sql);
     /**
@@ -37,6 +45,9 @@
                 <th>Año</th>
                 <th>Número de temporadas</th>
                 <th></th><!-- imagen -->
+                <th></th><!-- boton -->
+
+
             </tr>
         </thead>
         <tbody>
@@ -50,6 +61,15 @@
                 ?>
                 <td>
                     <img width="100" height="200" src="<?php echo $fila["imagen"]?>">
+                </td>
+                <td>
+                    <form action="" method="post">
+                        <input type="hidden" name="id_anime" value="<?php echo $fila["id_anime"]?>">
+                        <input class="btn btn-danger" type="submit" value="Borrar">
+                    </form>
+                </td>
+                <td>
+                    <a class="btn btn-primary" href="ver_anime.php?id_anime=<?php echo $fila["id_anime"]?>">Editar</a>
                 </td>
                 <?php
                 echo"</tr>";
