@@ -83,8 +83,3 @@
 </html>
 
 
-cd ../../var/www/html/Ejercicios
-
-
-sudo chown -R estudiante var/www/
-sudo chmod 777 -R var/www/
