@@ -2,7 +2,7 @@
     $_servidor = "127.0.0.1";//o "localhost, que realmente es un alias"
     $_usuario = "estudiante";
     $_contrasena = "estudiante";
-    $_base_de_datos = "animes_bd";
+    $_base_de_datos = "tienda_bd";
 
     // mysqli ó PDO
 
