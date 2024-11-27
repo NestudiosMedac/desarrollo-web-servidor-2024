@@ -3,11 +3,14 @@ cd ../../var/www/html/Ejercicios
 sudo apt-get install php-mysqlnd
 sudo service apache2 restart 
 
+HABILITAR SQL EN LINUX POR COMANDOS COMO DICE AURELIO
+
 Y LUEGO, DESDE EL DIRECTORIO RAÍZ DE TODO:
 
 sudo chown -R estudiante var/www/
 sudo chmod 777 -R var/www/
 
+https://getbootstrap.com/docs/5.3/components/navs-tabs/
 
 regex del precio [0-9]{1,4}(\.[0-9]{1,2})?
 
@@ -15,8 +18,22 @@ regex del precio [0-9]{1,4}(\.[0-9]{1,2})?
 
 LA BASE DE DATOS SERÁ TIENDA_BD
 - con las tablas "categorias" y "productos"
+-TIENDA_BD
 
+-tienda
+--index.php--> listado con los productosque podrán ver todos los usuarios, pero sin botones de borrar y editar
+--usuario
+---iniciar_sesion.php
+---registro.php
+---cerrar_sesion.php
+---cambiar_credenciales.php -> va a permitir cambiar la contraseña deñ usuario
 
+- SI NO SE INICIA SESION, SOLO SE PODRA ACCEDER A iniciar_sesion.PHP O AL index.PHP DE TIENDA_BD
+-SI SE INTENTA ACCEDER A CUALQUIER OTRA PAGINA SIN INICIAR SESION, REDIRIGIRA A INICIAR_SESION.PHP,
+-CUANDO SE INICIE SESION, REDIGIRÁ AL INDEX.PHP DE TIENDA_BD
+-EN INDEX.PHP DE TIENDA, SI NO SE HA INCIIADO SESION, SE MOSTRARA EL BOTON DE INICIAR SESION(IF(ISSET USUARIO))
+-EN INDEX.PHP DE TIENDA, SI SE HA INCIADO SESION, SE MOSTRARA EL BOTON DE CERRAR SESON Y EL NOMBRE DEL USUARIO LOGEADO, Y BOTONES ÀRA IR A PRODUCTOS, 
+A CATEGORIAS Y A MODIFICAR
 
 -FORMULARIO EDITAR DE CATEGORIAS:
 --SE MOSTRARÁ LA CATEGORIA EN UN INPUT DISABLED. ESTO VA A PROVOCAR QUE TENGÁIS QUE CREAR LUEGO UN INPUT HIDDEN CON LA CATEGORÍA

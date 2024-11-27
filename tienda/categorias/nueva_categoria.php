@@ -9,55 +9,58 @@
      error_reporting(E_ALL );
      ini_set("display_errors", 1 );    
 
-     require('conexion.php');?>
+     require('../util/conexion.php'); ?>
    
 </head>
 <body>
     <div class="container">
         <h1>Nueva categoría</h1>
         <?php
-
-        function depurar(string $entrada): string{// el primer String fuerza que sea un string, el segundo detras de : es para delvolver es un String, sino peta
+     /*    function depurar(string $entrada): string{// el primer String fuerza que sea un string, el segundo detras de : es para delvolver es un String, sino peta
             $salida = htmlspecialchars($entrada);//asi no se meten cosas de html
             $salida = trim ($salida);
             $salida = preg_replace('!\s+!', '', $salida);//quita los espacios sobrantes
             return $salida;
         }
-
+ */
         if($_SERVER["REQUEST_METHOD"] == "POST"){
-            $tmp_nombre_categoria = depurar($_POST["nombre_categoria"]);
-            $tmp_descripcion= depurar($_POST["descripcion"]);
+            $tmp_categoria = $_POST["categoria"];
+            $tmp_descripcion = $_POST["descripcion"];
      
-            if($tmp_nombre_categoria = ""){
-                $err_nombre_categoria = "El nombre de la categoría es obligatorio";
+            if($tmp_categoria == ""){
+                $err_categoria = "El nombre de la categoría es obligatorio";
             }else{
-                if(strlen($tmp_nombre_categoria)>30){
-                    $err_nombre_categoria="El nombre de la categoría debe tener como máximo 30 carácteres. "; 
+                if(strlen($tmp_categoria) > 30){
+                    $err_categoria="El nombre de la categoría debe tener como máximo 30 carácteres. "; 
                 }else{
-                    $nombre_categoria = $tmp_nombre_categoria;
+                    $categoria = $tmp_categoria;
                 }
             }
 
-            if($tmp_descripcion = ""){
+            if($tmp_descripcion == ""){
                 $err_descripcion = "La descripción de la categoría es obligatoria.";
             }else{
-                if(strlen($tmp_descripcion)>255){
+                if(strlen($tmp_descripcion)>255 ){
                     $err_descripcion ="La descripción de la categoría debe como máximo 255 carácteres."; 
                 }else{
-                    $nombre_categoria = $tmp_nombre_categoria;
+                    $descripcion = $tmp_descripcion;
+                 
                 }
+            } 
+            if(isset($categoria) && isset($descripcion)){
+                $sql = "INSERT INTO categorias (categoria, descripcion) 
+                VALUES ('$categoria', '$descripcion')";
+                $_conexion -> query($sql);
             }
-
-         /* $sql = "INSERT INTO categorias (categoria, descripcion) 
-            VALUES ('$nombre_categoria', '$descripcion')";
-            $_conexion -> query($sql); */
+    
+        
         }
         ?>
         <form action="" method="post">
             <div class="mb-3">
                 <label class="form-label">Nombre de la categoría:</label>
-                <input type="text" class="form-control" name="nombre_categoria">
-                <?php if(isset($err_nombre_categoria)) echo "<span class='error'>$err_nombre_categoria</span>";?>
+                <input type="text" class="form-control" name="categoria">
+                <?php if(isset($err_categoria)) echo "<span class='error'>$err_categoria</span>";?>
             </div>
             <div class="mb-3">
                 <label class="form-label">Descripción:</label>
@@ -65,7 +68,7 @@
                 <?php if(isset($err_descripcion)) echo "<span class='error'>$err_descripcion</span>";?>
             </div>
             <div class="mb-3">
-                <input type="submit" class="btn btn-primary" value="Editar">
+                <input type="submit" class="btn btn-primary" value="Crear">
                 <a href="index.php" class="btn btn-secondary">Volver</a> 
 
             </div>
