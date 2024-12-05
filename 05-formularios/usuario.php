@@ -17,7 +17,6 @@
         $salida = preg_replace('!\s+!', '', $salida);//quita los espacios sobrantes
         return $salida;
     }
-    
     ?>
     <?php
     if($_SERVER["REQUEST_METHOD"] == "POST") {

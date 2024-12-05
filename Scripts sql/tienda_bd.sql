@@ -8,12 +8,16 @@ CREATE TABLE categorias (
 CREATE TABLE productos (
 	id_producto INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(50),
-    precio NUMERIC(6,2) NOT NULL,
-    categoria VARCHAR(30) NOT NULL,
+    precio NUMERIC(6,2),
+    categoria VARCHAR(30),
     stock INT DEFAULT 0,
-    imagen VARCHAR(60) NOT NULL,
-    descripcion VARCHAR(255) NOT NULL,
+    imagen VARCHAR(60) ,
+    descripcion VARCHAR(255) ,
     FOREIGN KEY (categoria) REFERENCES categorias(categoria)
 );
 
+CREATE TABLE usuarios (
+	usuario VARCHAR(15)PRIMARY KEY,
+    contrasena VARCHAR(255)
+);
 
