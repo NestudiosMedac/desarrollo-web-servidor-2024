@@ -36,16 +36,60 @@
             move_uploaded_file($ubicacion_temporal, $ubicacion_final);
             /* sirve para mover de una ubicacion al otro */
 
-
-
-           $sql = "INSERT INTO animes (titulo, nombre_estudio, anno_estreno, num_temporadas, imagen) 
+            /* 
+            $sql = "INSERT INTO animes (titulo, nombre_estudio, anno_estreno, num_temporadas, imagen) 
             VALUES ('$titulo', '$nombre_estudio', $anno_estreno, $num_temporadas, '$ubicacion_final')";
-            $_conexion -> query($sql);
+
+            $_conexion -> query($sql); 
+            */
+            /* Las tres etapas de las prepared statements: DE MEMORIA
+            INSERT UPDATE SELECT
+            1. Preparación 
+            2. Enlazado (binding)
+            3. Ejecución
+            */
+
+            //1. Preparación 
+            $sql=$_conexion -> prepare("INSERT INTO animes (titulo, nombre_estudio, anno_estreno, num_temporadas, imagen) 
+            VALUES (?,?,?,?,?)");
+            //2. Enlazado (binding)
+            /* 
+            s-> String 
+            i-> Int
+            d-> Float
+            b-> IMAGENES NO USAMOS 
+            HAY QUE TENER CUIDADO CON EL ERROR*/
+            $sql->bind_param("ssiis",
+            $titulo,
+            $nombre_estudio,
+            $anno_estreno,
+            $num_temporadas,
+            $ubicacion_final);
+
+            //3. Ejecución
+            $sql -> execute();
+
         }
+
+           /* 4. Retrieve
+           $resultado= $sql -> get_result(); 
+           
+           SOLO EN LOS CASOS DE LOS SELECT*/
        
 
-           $sql = "SELECT * FROM estudios ORDER BY nombre_estudio";
-           $resultado = $_conexion ->query($sql);
+          /*  $sql = "SELECT * FROM estudios ORDER BY nombre_estudio";
+           $resultado = $_conexion ->query($sql); */
+
+           $sql=$_conexion-> prepare("SELECT * FROM estudios ORDER BY ?");
+           $sql->bind_param("s",
+           $nombre_estudio
+           );
+           $sql -> execute();
+           //4. Retrieve
+           $resultado= $sql -> get_result();
+   
+             // Cerrar despues de la ULTIMA sentancia sql
+            $_conexion -> close();
            $estudios=[];
            while($fila = $resultado-> fetch_assoc()){ //trata el resultado como un array asociativo (cursor)
             array_push($estudios, $fila["nombre_estudio"]);
