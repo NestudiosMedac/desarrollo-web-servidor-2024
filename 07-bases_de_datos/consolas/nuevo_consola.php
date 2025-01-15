@@ -23,10 +23,22 @@
             $gen = $_POST["gen"];
             $unidades = $_POST["unidades"];
 
-
+            /* 
             $sql = "INSERT INTO consolas (id, nombre, fabricante, gen, unidades ) 
             VALUES ($id, '$nombre', '$fabricante',$gen, $unidades)";
-            $_conexion -> query($sql);
+            $_conexion -> query($sql); */
+
+
+            $sql=$_conexion-> prepare("INSERT INTO consolas (id, nombre, fabricante, gen, unidades) 
+            VALUES (?,?,?,?,?");
+            $sql->bind_param("isssi",
+            $id,
+            $nombre,
+            $fabricante,
+            $gen,
+            $unidades);
+            $sql -> execute();
+            $_conexion -> close();
 
 
 

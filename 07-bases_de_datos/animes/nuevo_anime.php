@@ -43,7 +43,7 @@
             $_conexion -> query($sql); 
             */
             /* Las tres etapas de las prepared statements: DE MEMORIA
-            INSERT UPDATE SELECT
+            INSERT UPDATE DELETE
             1. Preparación 
             2. Enlazado (binding)
             3. Ejecución

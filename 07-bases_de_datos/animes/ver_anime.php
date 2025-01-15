@@ -10,11 +10,11 @@
         ini_set("display_errors", 1 );    
 
         require('conexion.php');
-        
+
         session_start();
         if(isset($_SESSION["usuario"])) {
             echo "<h2>Bienvenid@ " . $_SESSION["usuario"] . "</h2>";
-        } else {
+        }else{
             header("location: usuario/iniciar_sesion.php");
             exit;
         }
@@ -24,18 +24,21 @@
     <div class="container">
         <h1>Editar anime</h1>
         <?php
-        //echo "<h1>" . $_GET["id_anime"] . "</h1>";
-
         $id_anime = $_GET["id_anime"];
-       /*  $sql = "SELECT * FROM animes WHERE id_anime = $id_anime";
-        $resultado = $_conexion -> query($sql); */
-        $sql=$_conexion-> prepare("SELECT * FROM animes WHERE id_anime = ?");
-        $sql->bind_param("i",
-        $id_anime);
+        /*
+        $sql = "SELECT * FROM animes WHERE id_anime = $id_anime";
+        $resultado = $_conexion -> query($sql);
+        */
 
+        # 1. Prepare
+        $sql = $_conexion -> prepare("SELECT * FROM animes WHERE id_anime = ?");
+        # 2. Binding
+        $sql -> bind_param("i",$id_anime); # i,s,d
+        # 3. Execute
         $sql -> execute();
-
-
+        # 4. Retrieve
+        $resultado = $sql -> get_result();
+        
         while($fila = $resultado -> fetch_assoc()) {
             $titulo = $fila["titulo"];
             $nombre_estudio = $fila["nombre_estudio"];
@@ -44,20 +47,20 @@
             $imagen = $fila["imagen"];
         }
 
-        //echo "<h1>$titulo</h1>";
+        /*
+        $sql = "SELECT * FROM estudios ORDER BY nombre_estudio";
+        $resultado = $_conexion -> query($sql);
+        */
 
-        /* $sql = "SELECT * FROM estudios ORDER BY nombre_estudio";
-        $resultado = $_conexion -> query($sql); */
-        $sql=$_conexion-> prepare("SELECT * FROM estudios ORDER BY ?");
-        $sql->bind_param("s",
-        $nombre_estudio
-        );
+        # 1. Prepare
+        $sql = $_conexion -> prepare("SELECT * FROM estudios ORDER BY ?");
+        # 2. Bind
+        $sql -> bind_param("s",$nombre_estudio);
+        # 3. Execute
         $sql -> execute();
-        //4. Retrieve
-        $resultado= $sql -> get_result();
+        # 4. Retrieve
+        $resultado = $sql -> get_result();
 
-        
-        $_conexion= close();
         $estudios = [];
 
         while($fila = $resultado -> fetch_assoc()) {
@@ -71,6 +74,7 @@
             $anno_estreno = $_POST["anno_estreno"];
             $num_temporadas = $_POST["num_temporadas"];
 
+            /*
             $sql = "UPDATE animes SET
                 titulo = '$titulo',
                 nombre_estudio = '$nombre_estudio',
@@ -79,6 +83,29 @@
                 WHERE id_anime = $id_anime
             ";
             $_conexion -> query($sql);
+            */
+
+            # 1. Prepare
+            $sql = $_conexion -> prepare($sql = "UPDATE animes SET
+                titulo = ?,
+                nombre_estudio = ?,
+                anno_estreno = ?,
+                num_temporadas = ?
+                WHERE id_anime = ?
+            ");
+
+            # 2. Binding
+            $sql -> bind_param("ssiii",
+                $titulo,
+                $nombre_estudio,
+                $anno_estreno,
+                $num_temporadas,
+                $id_anime
+            );
+
+            # 3. Execute
+            $sql -> execute();
+            $_conexion -> close();
         }
         ?>
         <form class="col-6" action="" method="post" enctype="multipart/form-data">

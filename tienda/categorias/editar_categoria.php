@@ -26,9 +26,18 @@
         <?php
         //echo "<h1>" . $_GET["categoria"] . "</h1>";
 
-        $categoria = $_GET["categoria"];
+       /*  $categoria = $_GET["categoria"];
         $sql = "SELECT * FROM categorias WHERE categoria = $categoria";
-        $resultado = $_conexion -> query($sql);
+        $resultado = $_conexion -> query($sql); */
+        
+        $sql=$_conexion-> prepare("SELECT * FROM categorias WHERE categoria = ?) 
+        VALUES (?");
+        $sql->bind_param("s",
+        $categoria);
+        $sql -> execute();
+        
+
+
         
         while($fila = $resultado -> fetch_assoc()) {
             $nombre_categoria = $fila["categoria"];
@@ -37,8 +46,20 @@
 
         //echo "<h1>$titulo</h1>";
 
-        $sql = "SELECT * FROM categorias ORDER BY categoria";
+        /* $sql = "SELECT * FROM categorias ORDER BY categoria";
         $resultado = $_conexion -> query($sql);
+
+        $_conexion -> close(); */
+
+
+        $sql=$_conexion-> prepare("SELECT * FROM categorias ORDER BY ?");
+        $sql->bind_param("s",
+        $categoria
+        );
+        $sql -> execute();
+        //4. Retrieve
+        $resultado= $sql -> get_result();
+       
         $categorias = [];
 
         while($fila = $resultado -> fetch_assoc()) {
@@ -50,13 +71,34 @@
             $tmp_descripcion = $_POST["descripcion"];
 
                 //validacion
-            $sql = "UPDATE categorias SET
+            /* $sql = "UPDATE categorias SET
                 categoria = '$nombre_categoria',
                 desctipcion = '$descripcion',
     
                 WHERE categoria = $nombre_categoria
             ";
-            $_conexion -> query($sql);
+            $_conexion -> query($sql); */
+
+
+
+            $sql = $_conexion -> prepare($sql = "UPDATE categorias SET
+                categoria = ?,
+                descripcion = ?
+                WHERE categoria = ?
+            ");
+
+            # 2. Binding
+            $sql -> bind_param("ss",
+                $nombre_categoria,
+                $descripcion,
+                $nombre_categoria
+            );
+
+            # 3. Execute
+            $sql -> execute();
+
+
+            $_conexion -> close();
         }
         ?>
         <form class="col-6" action="" method="post" enctype="multipart/form-data">

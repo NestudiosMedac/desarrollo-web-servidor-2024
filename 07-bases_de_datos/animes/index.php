@@ -38,7 +38,7 @@
 
      }
 
-    $sql = "SELECT* FROM animes";
+    $sql = "SELECT * FROM animes";
     $resultado = $_conexion -> query($sql);
     $_conexion=close();
     /**
