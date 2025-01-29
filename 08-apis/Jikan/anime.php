@@ -8,9 +8,10 @@
 </head>
 <body>
     <?php
+    if(!isset($_GET["id"])){
      $id = $_GET["id"];
      $apiUrl = "https://api.jikan.moe/v4/anime/$id/full";
-
+    }
      $curl = curl_init();
      curl_setopt($curl, CURLOPT_URL, $apiUrl);
      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
