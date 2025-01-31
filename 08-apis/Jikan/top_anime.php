@@ -30,10 +30,11 @@
     $tipo = $_GET["type"];
     $apiUrl = "https://api.jikan.moe/v4/top/anime?type=$tipo";
     }
-    if(isset($pagina)){
 
-        $apiUrl = "https://api.jikan.moe/v4/top/anime?page=$pagina";
-        }
+    if(isset($_GET["page"])){
+       $pagina= $_GET["page"];
+       $apiUrl = "https://api.jikan.moe/v4/top/anime?type=$tipo&page=$pagina";
+    }
 
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_URL, $apiUrl);
@@ -43,8 +44,17 @@
 
     $datos = json_decode($respuesta, true);
     $animes=$datos["data"];
-    ?>
+    $paginacion=$datos["pagination"];
 
+    $paginaActual=$paginacion["current_page"];
+    $restarPagina=$paginaActual-=1;
+    $sumarPagina=$paginaActual+=1;
+   
+
+
+    ?>
+    <a href="http://localhost/Ejercicios/08-apis/Jikan/top_anime.php?type=<?php $tipo ?>&page=<?php $restarPagina ?>">Atrás</a>
+    <a href="http://localhost/Ejercicios/08-apis/Jikan/top_anime.php?type=<?php $tipo ?>&page=<?php $sumarPagina ?>">Siguiente</a>
 
 <table class='table table-striped table-hover table-sm'>
         <thead class='table-dark'>
@@ -69,20 +79,16 @@
                 <td><?php echo $anime["score"] ?></td>
                 <td><img width="100px"src= "<?php echo $anime["images"]["jpg"]["image_url"]?>"></img></td>
             </tr>
-            <?php } 
-            if($_GET["page"]==""){
-                $page = $_GET["page"];
-                $pagina=1;
+            <?php  
+            
+            
             }
-            $avanzar=$pagina+=1;
-            $atras=$pagina-=1;
 
             ?>
         </tbody>
     </table>
  </div>
-    <a href="http://localhost/Ejercicios/08-apis/Jikan/top_anime.php?page=<?php $atras ?>">Atrás</a>
-    <a href="http://localhost/Ejercicios/08-apis/Jikan/top_anime.php?page=<?php $avanzar+=1 ?>">Siguiente</a>
+
 
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
