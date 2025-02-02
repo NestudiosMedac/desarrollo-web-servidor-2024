@@ -36,19 +36,6 @@
             return $salida;
         }
 
-<<<<<<< HEAD
-        $categoria = $_GET["categoria"];
-        $sql = "SELECT * FROM categorias WHERE categoria = '$categoria'";
-        $resultado = $_conexion->query($sql);
-
-        while ($fila = $resultado->fetch_assoc()) {
-            $categoria = $fila["categoria"];
-            $descripcion = $fila["descripcion"];
-        }
-
-        $sql = "SELECT * FROM categorias ORDER BY categoria";
-        $resultado = $_conexion->query($sql);
-=======
        /*  $categoria = $_GET["categoria"];
         $sql = "SELECT * FROM categorias WHERE categoria = $categoria";
         $resultado = $_conexion -> query($sql); */
@@ -83,7 +70,6 @@
         //4. Retrieve
         $resultado= $sql -> get_result();
        
->>>>>>> 6da089c790801c93ba7bbc1893de958ed40e5ddc
         $categorias = [];
 
         while ($fila = $resultado->fetch_assoc()) {

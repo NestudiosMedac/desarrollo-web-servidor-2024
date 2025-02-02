@@ -40,7 +40,7 @@
 
     $sql = "SELECT * FROM animes";
     $resultado = $_conexion -> query($sql);
-    $_conexion=close();
+    //$_conexion=close();
     /**
      * 
      * SI SIEMPRE ENTRAMOS AL INDEX CAMBIA LA URL

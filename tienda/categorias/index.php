@@ -40,6 +40,7 @@
         $categoria);
         $sql -> execute();
      }
+     ?>
 
         <h1>Tabla de categorías</h1>
         <?php
