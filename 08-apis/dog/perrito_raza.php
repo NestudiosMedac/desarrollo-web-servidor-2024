@@ -11,9 +11,20 @@
     ?>
 </head>
 <body>
+<form action="" method="get">
+    <p class="form-label">Escoge un filtro:</p>
+    <input type="radio" id="serie" name="type" value="TV">   
+    <label for="serie" class="form-label">Serie</label><br>
+    <input type="radio" id="pelicula" name="type" value="Movie">
+    <label for="pelicula" class="form-label">Pelicula</label><br>
+    <input type="radio" id="todos" name="type" value="">
+    <label for="todos" class="form-label">Todos</label>
+    <br>
+    <input type="submit" value="Enviar">
+    <br>
+</form>
     <?php
-    $apiUrl = "https://dog.ceo/api/breeds/image/random";
-
+    //$apiUrl = "https://dog.ceo/api/breeds/image/random";
 
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_URL, $apiUrl);
@@ -23,27 +34,20 @@
 
     $datos = json_decode($respuesta, true);
     $razas=$datos["message"];
-    
+    $subrazas=$datos["message"];
 
+    /* Crea una página llamada perrito_raza.php que nos muestre un
+    perrito al azar de la raza escogida. La raza se escogerá mediante un campo
+    de tipo select. ¡Ten cuidado con la forma de mostrar las razas en el
+    desplegable, tiene truco! */
     ?>
     <img width="100px"src= "<?php echo $razas ?>"></img>
     <button><a href="perrito_aleatorio.php">Perrito</a></button>
-
-
-
-
-
-
-
-
-
-
 
 <table class='table table-striped table-hover table-sm'>
         <thead class='table-dark'>
             <tr>
                 <th>Imagen:</th>
-
             </tr>
         </thead>
          <tbody>
@@ -56,12 +60,20 @@
                 // echo raza +subraza
                 //end if
                 //end foreach
-                foreach($razas as $raza){?>
+                foreach($razas as $raza =>$subrazas){
+                    
+                    if ($subraza != ""){
+                        echo $razas.=$subrazas;
+
+                        }
+                    }
+                    
+                    
+                    ?>
             <tr>
                 <td><img width="100px"src= "<?php echo $raza["message"]?>"></img></td>
             </tr>
             <?php 
-            }
             ?>
         </tbody>
     </table>
