@@ -29,12 +29,18 @@
         $id_anime = $_POST["id_anime"];
         echo "<h1>$id_anime</h1>";
         //BORRAR ANIME
-        $sql = "DELETE FROM animes WHERE id_anime = $id_anime";// es un id, un numero
-        $_conexion -> query($sql);
+/*         $sql = "DELETE FROM animes WHERE id_anime = $id_anime";
+        $_conexion -> query($sql); */
+        $sql=$_conexion-> prepare("DELETE FROM animes WHERE id_anime = ?");
+        $sql->bind_param("i",
+        $id_anime);
+        $sql -> execute();
+
      }
 
-    $sql = "SELECT* FROM animes";
+    $sql = "SELECT * FROM animes";
     $resultado = $_conexion -> query($sql);
+    $_conexion=close();
     /**
      * 
      * SI SIEMPRE ENTRAMOS AL INDEX CAMBIA LA URL

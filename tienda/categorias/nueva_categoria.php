@@ -64,11 +64,22 @@
                 } else {
                     $descripcion = $tmp_descripcion;
                 }
-            }
-            if (isset($categoria) && isset($descripcion)) {
-                $sql = "INSERT INTO categorias (categoria, descripcion) 
+            } 
+            if(isset($categoria) && isset($descripcion)){
+                /* $sql = "INSERT INTO categorias (categoria, descripcion) 
                 VALUES ('$categoria', '$descripcion')";
-                $_conexion->query($sql);
+                $_conexion -> query($sql); */
+
+                $sql=$_conexion -> prepare("INSERT INTO categorias (categoria, descripcion) 
+            VALUES (?,?)"); 
+             $sql->bind_param("ss",
+             $categoria,
+             $descripcion,
+             );
+ 
+             //3. Ejecución
+             $sql -> execute();
+             $_conexion -> close();
             }
         }
         ?>

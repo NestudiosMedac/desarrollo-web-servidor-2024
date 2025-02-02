@@ -36,6 +36,7 @@
             return $salida;
         }
 
+<<<<<<< HEAD
         $categoria = $_GET["categoria"];
         $sql = "SELECT * FROM categorias WHERE categoria = '$categoria'";
         $resultado = $_conexion->query($sql);
@@ -47,6 +48,42 @@
 
         $sql = "SELECT * FROM categorias ORDER BY categoria";
         $resultado = $_conexion->query($sql);
+=======
+       /*  $categoria = $_GET["categoria"];
+        $sql = "SELECT * FROM categorias WHERE categoria = $categoria";
+        $resultado = $_conexion -> query($sql); */
+        
+        $sql=$_conexion-> prepare("SELECT * FROM categorias WHERE categoria = ?) 
+        VALUES (?");
+        $sql->bind_param("s",
+        $categoria);
+        $sql -> execute();
+        
+
+
+        
+        while($fila = $resultado -> fetch_assoc()) {
+            $nombre_categoria = $fila["categoria"];
+            $descripcion = $fila["descripcion"];
+        }
+
+        //echo "<h1>$titulo</h1>";
+
+        /* $sql = "SELECT * FROM categorias ORDER BY categoria";
+        $resultado = $_conexion -> query($sql);
+
+        $_conexion -> close(); */
+
+
+        $sql=$_conexion-> prepare("SELECT * FROM categorias ORDER BY ?");
+        $sql->bind_param("s",
+        $categoria
+        );
+        $sql -> execute();
+        //4. Retrieve
+        $resultado= $sql -> get_result();
+       
+>>>>>>> 6da089c790801c93ba7bbc1893de958ed40e5ddc
         $categorias = [];
 
         while ($fila = $resultado->fetch_assoc()) {
@@ -57,49 +94,35 @@
             $tmp_categoria = depurar($_POST["categoria"]);
             $tmp_descripcion = depurar($_POST["descripcion"]);
 
-            $sql = "SELECT * FROM categorias WHERE categoria = '$tmp_categoria'";
-            $resultado = $_conexion->query($sql);
-
-            if ($tmp_categoria == "") {
-                $err_categoria = "El nombre de la categoría es obligatorio";
-            } else {
-                if ($resultado->num_rows != 0) {
-                    $err_categoria = "La categoría ya existe";
-                } else {
-                    $patron = "/^[A-Za-z\s]+$/";
-                    if (!preg_match($patron, $tmp_categoria)) {
-                        $err_categoria = "El nombre de la categoría debe contener solo letras y espacios en blanco ";
-                    } else {
-                        if (strlen($tmp_categoria) >= 30) {
-                            $err_categoria = "El nombre de la categoría debe tener como máximo 30 carácteres. ";
-                        } else {
-                            if (strlen($tmp_categoria) < 2) {
-                                $err_categoria = "El nombre de la categoría debe tener como minimo 2 carácteres. ";
-                            } else {
-                                $categoria = $tmp_categoria;
-                            }
-                        }
-                    }
-                }
-            }
-
-            if ($tmp_descripcion == "") {
-                $err_descripcion = "La descripción de la categoría es obligatoria.";
-            } else {
-                if (strlen($tmp_descripcion) > 255) {
-                    $err_descripcion = "La descripción de la categoría debe como máximo 255 carácteres.";
-                } else {
-                    $descripcion = $tmp_descripcion;
-                }
-            }
-            if (isset($categoria) && isset($descripcion)) {
-                $sql = "UPDATE categorias SET
-                categoria = '$categoria',
-                descripcion = '$descripcion'
-                WHERE categoria = '$categoria'
+                //validacion
+            /* $sql = "UPDATE categorias SET
+                categoria = '$nombre_categoria',
+                desctipcion = '$descripcion',
+    
+                WHERE categoria = $nombre_categoria
             ";
-                $_conexion->query($sql);
-            }
+            $_conexion -> query($sql); */
+
+
+
+            $sql = $_conexion -> prepare($sql = "UPDATE categorias SET
+                categoria = ?,
+                descripcion = ?
+                WHERE categoria = ?
+            ");
+
+            # 2. Binding
+            $sql -> bind_param("ss",
+                $nombre_categoria,
+                $descripcion,
+                $nombre_categoria
+            );
+
+            # 3. Execute
+            $sql -> execute();
+
+
+            $_conexion -> close();
         }
         ?>
         <form class="col-6" action="" method="post" enctype="multipart/form-data">
