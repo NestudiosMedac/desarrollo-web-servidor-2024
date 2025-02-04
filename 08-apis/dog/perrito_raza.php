@@ -11,23 +11,50 @@
     ?>
 </head>
 <body>
+<!-- Crea una página llamada perrito_raza.php que nos muestre un
+perrito al azar de la raza escogida. La raza se escogerá mediante un campo
+de tipo select. ¡Ten cuidado con la forma de mostrar las razas en el
+desplegable, tiene truco!
+ -->
     <?php
-    $apiUrl = "https://dog.ceo/api/breeds/image/random";
-
-
-    $curl = curl_init();
-    curl_setopt($curl, CURLOPT_URL, $apiUrl);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    $respuesta = curl_exec($curl);
-    curl_close($curl);
+   
+   $RazaApiUrl = "https://dog.ceo/api/breeds/list/all";
+    $curlRaza = curl_init();
+    curl_setopt($curlRaza, CURLOPT_URL, $RazaApiUrl);
+    curl_setopt($curlRaza, CURLOPT_RETURNTRANSFER, true);
+    $respuesta = curl_exec($curlRaza);
+    curl_close($curlRaza);
 
     $datos = json_decode($respuesta, true);
-    $razas=$datos["message"];
+    $razas = $datos["message"];
     
+    
+  /*   $apiUrl = "https://dog.ceo/api/breeds/image/random";
+
+    if(isset($raza)){
+        $raza=$_GET[""];
+        $apiUrl = "hhttps://dog.ceo/api/breed/hound/images/random";
+    } */
 
     ?>
-    <img width="100px"src= "<?php echo $razas ?>"></img>
-    <button><a href="perrito_aleatorio.php">Perrito</a></button>
+
+
+
+<div class="container">
+        <form action="" method="get">
+            <label class="form-label">Categoría:</label>
+            <select name="breeds" id="breeds" class="form-select">
+                <option disabled selected hidden>--- Elige una raza ---</option>
+                <?php foreach ($razas as $raza) { ?>
+                    <option value="<?php echo $raza; ?>"><?php echo $raza; ?></option>
+                <?php } ?>
+            </select>
+            <br>
+            <input type="submit" value="Nuevo raza" class="btn btn-primary">
+            <br>
+        </form>
+    </div>
+ 
 
 
 
