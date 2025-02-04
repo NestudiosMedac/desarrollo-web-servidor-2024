@@ -25,16 +25,16 @@
     <br>
 </form>
     <?php
-    $apiUrl = "https://api.jikan.moe/v4/top/anime";
-    if(isset($_GET["type"])){
-    $tipo = $_GET["type"];
-    $apiUrl = "https://api.jikan.moe/v4/top/anime?type=$tipo";
-    }
+          $type = isset($_GET['type']) ? $_GET['type'] : '';
+          $page = isset($_GET['page']) ? $_GET['page'] : 1;
+  
+          // Construir la URL
+          $apiUrl = "https://api.jikan.moe/v4/top/anime?page=$page";
+          if (!empty($type)) {
+              $apiUrl .= "&type=$type";
+          }
+  
 
-    if(isset($_GET["page"])){
-       $pagina= $_GET["page"];
-       $apiUrl = "https://api.jikan.moe/v4/top/anime?type=$tipo&page=$pagina";
-    }
 
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_URL, $apiUrl);
@@ -44,17 +44,14 @@
 
     $datos = json_decode($respuesta, true);
     $animes=$datos["data"];
-    $paginacion=$datos["pagination"];
+    $pagination=$datos["pagination"];
 
-    $paginaActual=$paginacion["current_page"];
-    $restarPagina=$paginaActual-=1;
-    $sumarPagina=$paginaActual+=1;
    
 
 
     ?>
-    <a href="http://localhost/Ejercicios/08-apis/Jikan/top_anime.php?type=<?php $tipo ?>&page=<?php $restarPagina ?>">Atrás</a>
-    <a href="http://localhost/Ejercicios/08-apis/Jikan/top_anime.php?type=<?php $tipo ?>&page=<?php $sumarPagina ?>">Siguiente</a>
+  
+
 
 <table class='table table-striped table-hover table-sm'>
         <thead class='table-dark'>
@@ -87,6 +84,13 @@
             ?>
         </tbody>
     </table>
+    <?php if ($pagination['current_page'] > 1) { ?>
+            <a href="?page=<?php echo $page - 1; ?>&type=<?php echo $type; ?>">Página Anterior</a>
+        <?php } ?>
+        <?php if ($pagination['has_next_page']) { ?>
+            <a href="?page=<?php echo $page + 1; ?>&type=<?php echo $type; ?>">Página Siguiente</a>
+        <?php } ?>
+
  </div>
 
 

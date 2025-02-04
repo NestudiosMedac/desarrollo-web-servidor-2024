@@ -36,12 +36,28 @@
 </form>
     <?php
     $apiUrl = "https://rickandmortyapi.com/api/character";
-    $cant = $_GET["cantidad"];
 
-    if(isset($_GET["gender"]) || isset($_GET["species"])){
+    if($_GET["cantidad"] == ""){
+        $cant = 1;
+    }else{
+        $cant = $_GET["cantidad"];
+    }
+    
+
+    if(isset($_GET["gender"]) && isset($_GET["species"])){
         $genero = $_GET["gender"];
         $especie = $_GET["species"];
         $apiUrl = "https://rickandmortyapi.com/api/character/?gender=$genero&species=$especie";
+
+    }elseif(isset($_GET["species"])) {
+        $especie = $_GET["species"];
+        $apiUrl = "https://rickandmortyapi.com/api/character/?species=$especie";
+
+        
+    }elseif(isset($_GET["gender"])){
+        $genero = $_GET["gender"];
+        $apiUrl = "https://rickandmortyapi.com/api/character/?gender=$genero";
+        
         }
    
 
@@ -71,8 +87,7 @@
         </thead>
          <tbody>
             <?php
-                //
-                
+    
                 foreach($personajes as $personaje){?>
 
             <tr>
