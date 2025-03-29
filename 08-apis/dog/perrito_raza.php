@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <title>Perritos random</title>
+    <title>Perrito al Azar</title>
     <?php
-    error_reporting( E_ALL );
-    ini_set("display_errors", 1 );
+        error_reporting(E_ALL);
+        ini_set("display_errors", 1);
     ?>
 </head>
 <body>
@@ -24,60 +23,55 @@
     <br>
 </form>
     <?php
-    //$apiUrl = "https://dog.ceo/api/breeds/image/random";
+        // Obtener la lista de razas desde la API
+        $apiUrl = "https://dog.ceo/api/breeds/list/all";
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $apiUrl);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $respuesta = curl_exec($curl);
+        curl_close($curl);
 
-    $curl = curl_init();
-    curl_setopt($curl, CURLOPT_URL, $apiUrl);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    $respuesta = curl_exec($curl);
-    curl_close($curl);
-
-    $datos = json_decode($respuesta, true);
-    $razas=$datos["message"];
-    $subrazas=$datos["message"];
-
-    /* Crea una página llamada perrito_raza.php que nos muestre un
-    perrito al azar de la raza escogida. La raza se escogerá mediante un campo
-    de tipo select. ¡Ten cuidado con la forma de mostrar las razas en el
-    desplegable, tiene truco! */
+        $datos = json_decode($respuesta, true);
+        $razas = $datos["message"];
     ?>
-    <img width="100px"src= "<?php echo $razas ?>"></img>
-    <button><a href="perrito_aleatorio.php">Perrito</a></button>
-
-<table class='table table-striped table-hover table-sm'>
-        <thead class='table-dark'>
-            <tr>
-                <th>Imagen:</th>
-            </tr>
-        </thead>
-         <tbody>
+    <form method="GET" action="">
+        <label>Escoge una raza</label>
+        <select name="raza">
             <?php
-                // foreach razas as raza =>subrazas
-                // if empty subrazas 
-                //echo raza
-                //else
-                //foreach subrazas as subraza
-                // echo raza +subraza
-                //end if
-                //end foreach
-                foreach($razas as $raza =>$subrazas){
-                    
-                    if ($subraza != ""){
-                        echo $razas.=$subrazas;
-
-                        }
+                foreach ($razas as $raza => $subrazas) {
+                    if (empty($subrazas)) { ?>
+                        <option value="<?php echo $raza; ?>"><?php echo $raza; ?></option>
+                    <?php } else {
+                        foreach ($subrazas as $subraza) { ?>
+                            <option value="<?php echo $raza . '/' . $subraza; ?>"><?php echo $raza . ' ' . $subraza; ?></option>
+                       
+                        <?php 
+                         }
                     }
-                    
-                    
-                    ?>
-            <tr>
-                <td><img width="100px"src= "<?php echo $raza["message"]?>"></img></td>
-            </tr>
-            <?php 
+                }
             ?>
-        </tbody>
-    </table>
- </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        </select>
+        <br>
+        <input type="submit" value="Mostrar Perrito">
+    </form>
+    <?php
+        if (isset($_GET["raza"])) {
+            $raza = $_GET["raza"];
+            $apiUrl = "https://dog.ceo/api/breed/" . $raza . "/images/random";
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, $apiUrl);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            $respuesta = curl_exec($curl);
+            curl_close($curl);
+
+            $datos = json_decode($respuesta, true);
+            $imagen = $datos["message"];
+            ?>
+            <div>
+                <img src="<?php echo $imagen; ?>">
+            </div>
+            <?php
+        }
+    ?>
 </body>
 </html>
